@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+        h1 {
+            color: #58CC02;
+        }
+        .xp-bar {
+            width: 100%;
+            background: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .xp-progress {
+            width: {{ xp_points|default:0 }}%;
+            background: #58CC02;
+            height: 20px;
+            transition: width 0.5s;
+        }
+        .lesson, .achievement {
+            background: #fff;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard</h1>
+        <p>Level: <strong>{{ user_level }}</strong></p>
+        <p>XP Points: <strong>{{ xp_points }}</strong></p>
+        <p>Current Streak: <strong>{{ streak_days }} days</strong></p>
+        <div class="xp-bar">
+            <div class="xp-progress"></div>
+        </div>
+
+        <h2>Completed Lessons</h2>
+        {% for lesson in completed_lessons %}
+            <div class="lesson">
+                <p><strong>{{ lesson.1 }}</strong></p>
+                <p>Score: {{ lesson.2 }}</p>
+                <p>Completed on: {{ lesson.3 }}</p>
+            </div>
+        {% empty %}
+            <p>No lessons completed yet.</p>
+        {% endfor %}
+
+        <h2>Achievements</h2>
+        {% for achievement in achievements %}
+            <div class="achievement">
+                <p><strong>{{ achievement.0 }}</strong></p>
+                <p>{{ achievement.1 }}</p>
+                <p>Earned on: {{ achievement.2 }}</p>
+            </div>
+        {% empty %}
+            <p>No achievements yet.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
